@@ -8,6 +8,6 @@ const mongoose=require("mongoose");
 //     }
 // )
 
-const UserModel=mongoose.model("Users",{username:String,password:String});
+const UserModel=mongoose.model("Users",{username:String,password:String,number:Number});
 
 module.exports=UserModel;

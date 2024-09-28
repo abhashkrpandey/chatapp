@@ -1,8 +1,8 @@
 import NavBar from '../Components/Navbar';
 export default function Home() {
     const para = [{
-        title: "Code-Room",
-        content: `Code-Room is an web application that provide seamless platform for a friendly coding competetion amoung you peers`
+        title: "Chat-Room",
+        content: `Chat-Room is mern chat application where one user can talk to another privately`
     },
     {
         title: "Key-features",

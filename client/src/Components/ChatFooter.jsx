@@ -1,18 +1,23 @@
 import { useContext,useRef,} from "react";
 import { UserContext1 } from "../UserContext1";
+import { UserContext } from "../UserContext";
+import axios from "axios";
 
-export default function ChatFooter({setdata}) {
-    const {message,setmessage,socket,recepientname,recepientsocketid}=useContext(UserContext1);
+export default function ChatFooter({data,setdata,socket}) {
+    const {message,setmessage,recepientname,recepientsocketid,recepietid}=useContext(UserContext1);
+    const {uid}=useContext(UserContext);
     const currentref=useRef(null);
-    function sender() {
-        socket.emit("mess", { "msg": message,"recepientname":recepientname,"recepientsocketid":recepientsocketid,"sendersocketid":socket.id});
+    async function sender() {
+        socket.emit("mess", { "msg": message,"recepientname":recepientname,"recepientsocketid":recepientsocketid,"sendersocketid":socket.id,"recepietid":recepietid,"senderid":uid});
         setdata((prevMessages)=>
         [
-            ...prevMessages,<div key={message.length} className="flex flex-row-reverse">
+            ...prevMessages,<div key={Math.random(0,1)} className="flex flex-row-reverse">
                 <p className="bg-green-700 pl-[2.25rem] pr-[0.25rem]">{message}</p>
                 </div>
         ]
     )
+    // const impdata1=await axios.post("http://localohost:3000/chatdata",{uid});
+    //      console.log(impdata1);
         currentref.current.value="";
     }
     function inputter(e) {

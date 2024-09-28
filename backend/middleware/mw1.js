@@ -4,7 +4,7 @@ function profileAuthentication(req,res,next)
     jwt.verify(req.cookies.token,process.env.SECRETKEY,(err,decoded)=>{
          if(err)
          {
-            res.send(err);
+            res.send({redirect:"/notidentified"});
          }
          else{
             req.decoded=decoded;

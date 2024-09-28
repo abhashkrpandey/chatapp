@@ -5,6 +5,7 @@ import { UserContextProvider } from "./UserContext";
 import ChatApp from "./Pages/ChatApp";
 import Login from './Pages/Login';
 import Home from './Pages/Home';
+import NotLoggined from './Pages/NotLogging';
 
 function App() {
     axios.defaults.baseURL="http://localhost:5173"
@@ -15,8 +16,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home/>}></Route>
          <Route path="/register" element={<Register/>}></Route>
-         <Route path="/profile" element={<ChatApp/>}></Route>
+         <Route path="/inside" element={<ChatApp/>}></Route>
          <Route path="/login" element={<Login/>}></Route>
+         <Route path="/notidentified" element={<NotLoggined/>}></Route>
       </Routes>
     </UserContextProvider>
       
