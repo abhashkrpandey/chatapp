@@ -1,22 +1,14 @@
 import ChatBody from "./ChatBody";
 import ChatFooter from "./ChatFooter";
 import ChatHeader from "./ChatHeader";
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
-export default function Chat({classname})
+import { useState ,useContext} from "react";
+import { UserContext } from "../UserContext";
+import { UserContext1 } from "../UserContext1";
+export default function Chat({classname,socket})
 {
     const [data,setdata]=useState([]);
-    // const socket =io("http://localhost:3000");
-    const [socket,setsocket]=useState(io("http://localhost:3000"))
-    useEffect(()=>
-    {
-        socket.on("connect",()=>
-            {
-                console.log(socket.id);
-            })
-        setsocket(socket);    
-
-    },[])
+    const { uid} = useContext(UserContext);
+    const {recepietid}=useContext(UserContext1);
     return(
         <div className={`${classname}`}>
            <ChatHeader></ChatHeader>

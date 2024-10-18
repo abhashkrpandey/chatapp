@@ -5,8 +5,8 @@ export default function ChatHeader()
 {
       const {recepientname}=useContext(UserContext1);
       return(
-           <div className="font-bold text-xl h-[5%]">
-            <p>{recepientname}</p>
+           <div className=" bg-blue-600 h-[10%] font-bold text-xl flex">
+            <div className="text-white flex items-center justify-center ml-[1%]">{recepientname}</div>
           </div>
       )
 }

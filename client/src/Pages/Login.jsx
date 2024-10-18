@@ -55,13 +55,16 @@ export default function Login() {
         }
     }
     return (
-        <div className="bg-slate-300 h-screen ">
-            <form className="flex flex-col items-center justify-center gap-3 " onSubmit={loginng}>
-                <input ref={userref} onChange={inputter} className="w-56" type="text" name="UserName" placeholder="Username"></input>
-                <input ref={passwordref} onChange={inputter} className="w-56" type="password" name="Password" placeholder="Password"></input>
-                <input ref={numberref}onChange={inputter} className="w-56" type="number" name="MobileNumber" placeholder="MobileNumber"></input>
-                <button className="bg-blue-600 w-56" type="submit">Login</button>
+        <div className="bg-blue-500 h-screen  flex justify-center">
+            <div className="bg-white h-[390px] w-[350px] my-[30px] mx-auto shadow-[0px_2px_2px_rgba(0,0,0,0.3)] rounded-[3px]">
+            <form className="flex flex-col p-[30px] " onSubmit={loginng}>
+                <h2 className="text-center text-[2rem] mt-[10px] mb-[25px] text-gray-500 font-[500]">Login</h2>
+                <input ref={userref} onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="text" name="UserName" placeholder="Username" required="required"></input>
+                <input ref={passwordref} onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="password" name="Password" placeholder="Password" required="required"></input>
+                <input ref={numberref}onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="number" name="MobileNumber" placeholder="MobileNumber" required="required"></input>
+                <button className="bg-blue-600 w-[18rem] h-[40px] text-white text-[16px] font-bold rounded-[2px]" type="submit">Login</button>
             </form>
+            </div>
         </div>
     )
 }

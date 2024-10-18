@@ -14,7 +14,6 @@ export default function ChatApp() {
     {
         async function refresher(){
         const response=await axios.get("http://localhost:3000/inside");
-        console.log(response);
         setuname( response.data.uname);
         setuid(response.data.id);
         setunumber(response.data.number);

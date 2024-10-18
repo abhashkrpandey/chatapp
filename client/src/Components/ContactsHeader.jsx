@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ContactsHeader()
 {
+    const{uname}=useContext(UserContext);
     const navigate=useNavigate();
     async function logout()
     {
@@ -26,13 +27,14 @@ export default function ContactsHeader()
         }
         Cookies.remove("token");
     }
-    const{uname}=useContext(UserContext);
     const name=uname;
     return (
+    <div className="flex bg-blue-600 h-[10%] justify-between">
+    <div className="font-bold text-xl text-white flex items-center justify-center ml-[1%]">{uname}</div>
     <div className="flex">
-    <div className="font-bold text-xl">Active Users to Contact</div>
-    <button onClick={logout}>Logout</button>
-    <button onClick={signout}>Signout</button>
+    <button onClick={logout} className="text-white mr-[10px]">Logout</button>
+    <button onClick={signout} className="text-white">Signout</button>
+    </div>
     </div>
     )
 }

@@ -1,33 +1,72 @@
-import axios from "axios";
+import axios, { all } from "axios";
 import { UserContext } from "../UserContext";
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { UserContext1 } from "../UserContext1";
 import UsertoContact from "./UsertoContact";
-export default function ContactsBody() {
+export default function ContactsBody({socket}) {
     const [listusers, setlistusers] = useState([]);
-    const {uid} =useContext(UserContext);
-    async function search() {
-        const searchedusers = await axios.get("http://localhost:3000/activeusers");
-        // console.log(searchedusers.data.activeUsersdata);
-        // searchedusers.data.activeUsersdata=searchedusers.data.activeUsersdata.filter(person=>person.userid!=uid);
-        setlistusers(searchedusers.data.activeUsersdata);
+    const [allusers, setallusers] = useState([]);
+    const { uid,status,setstatus } = useContext(UserContext);
+    const [updateusers,setupdateusers]=useState([]);
+    function updatedusers()
+    {
+        setupdateusers(allusers && allusers.length > 0 ? (
+            allusers.map((ele) => {
+                const matched = listusers.find((person) => person.userid == ele._id);
+                const socketvalue = matched ? matched.socketid : undefined;
+                return(
+                <UsertoContact userid={ele._id} socketid={socketvalue} uname={ele.username} key={ele._id} active={matched!==undefined && (matched.userid===ele._id)?true:false}></UsertoContact>
+                );
+            })
+         ) : (
+            <p>No active users</p>
+        ));
     }
+    async function search() {
+        socket.emit("status",{"uid":uid});
+        socket.on("online",(args)=>{
+                setlistusers(args.activeUsersdata);
+        })
+
+        socket.on("change",(args)=>{
+            setlistusers(args.activeUsersdata);
+        })
+        socket.on("disconnect",()=>{
+            setstatus(false);
+        })
+    }
+    useEffect(() => {
+        async function fetchingusers() {
+            const totalusers = await axios.get("http://localhost:3000/totalusers");
+            setallusers(totalusers.data.allusersdata);
+        }
+        fetchingusers();
+    }
+        , []);
+    useEffect(() => {
+            search();
+            return ()=>
+            {
+                socket.off("disconnect");
+                socket.off("online");
+                socket.off("change");
+                socket.off("status");
+            }
+    }, []);
+    useEffect(()=>
+    {
+        updatedusers();
+    },[listusers]);
     return (
         <>
-            <div className="flex flex-row">
-                <button className="bg-gray-500 w-1/6" onClick={search}>Refresh for active users</button>
-            </div>
+            {/* <div className="flex flex-row">
+                <button className="bg-gray-500 w-full" onClick={search}>Press for active users</button>
+            </div> */}
             <div>
-                {listusers && listusers.length > 0 ? (
-                    listusers.map((ele) => (
-                        <UsertoContact userid={ele.userid} socketid={ele.socketid} uname={ele.uname} key={ele.userid}></UsertoContact>
-                    ))
-                ) : (
-                    <p>No active users</p>
-                )}
+                {
+                updateusers
+                }
             </div>
-
-
         </>
     )
 }

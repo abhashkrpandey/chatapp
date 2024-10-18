@@ -9,8 +9,10 @@ const ChatModel =require("./dbmodels/Chatschema");
 const profileAuthentication = require("./middleware/mw1");
 const { createServer } = require("http");
 const { Server } = require("socket.io");
+const dayjs = require("dayjs");
 const app = express();
 let activeUsersdata = [];
+let allusersdata=[];
 let currentusername;
 let currentuid;
 let currentunumber;
@@ -62,7 +64,6 @@ app.post("/register", async function (req, res) {
 app.get("/profile", profileAuthentication, (req, res) => {
     res.send({ redirect: "/inside" });
 })
-
 app.get("/inside",profileAuthentication,async(req,res)=>
 {
     const username=req.decoded.username;
@@ -103,7 +104,16 @@ app.post("/login", async (req, res) => {
         res.send({ redirect: "/notvaliduser" });
     }
 })
-
+async function alluserfinder()
+{
+   allusersdata=await UserModel.find({},{username:1});
+//    console.log(allusersdata);
+}
+app.get("/totalusers",profileAuthentication,(req,res)=>
+{
+    alluserfinder();
+    res.send({allusersdata});
+})
 app.post("/user", profileAuthentication, async (req, res) => {
     const name = req.body.sname;
     const user = await UserModel.find({ username: name });
@@ -153,33 +163,39 @@ app.post("/chatdata",profileAuthentication,async (req,res)=>
     const converteduid= new mongoose.Types.ObjectId(req.body.uid);
     const convertedrecepientid=new mongoose.Types.ObjectId(req.body.recepietid);
     const chatdata=await ChatModel.find({$and:[{$or:[{senderid:convertedrecepientid},{receiverid:convertedrecepientid}]},{$or:[{senderid:converteduid},{receiverid:converteduid}]}]},{data:1,receiverid:1,senderid:1,createdAt:1});
-    //console.log(chatdata);
     res.json(chatdata);
 })
 io.on("connection", (socket) => {
     //console.log(socket.id);
    // console.log(activeUsersdata);
-    let currentUserIndex = activeUsersdata.findIndex(user => user.userid === currentuid);
+   socket.on("status",(args)=>{
+    let currentUserIndex = activeUsersdata.findIndex(user => user.userid === args.uid);
 
     if (currentUserIndex !== -1) {
         activeUsersdata[currentUserIndex].socketid = socket.id;
+        activeUsersdata[currentUserIndex].status="true";
         currentuid="";
         currentusername="";
         currentunumber="";
         //console.log(`User ${currentusername} reconnected with new socket ID: ${socket.id}`);
-    } else if(currentusername && currentuid && currentunumber) {
-        activeUsersdata.push({"uname": currentusername, "userid": currentuid,"usernumber":currentunumber});
+    } else 
+    if(currentusername && currentuid && currentunumber) {
+    
+        activeUsersdata.push({"uname": currentusername, "userid": currentuid,"usernumber":currentunumber,"status":true,"socketid":socket.id});
         console.log("A new user connected");
     }
+    
+        io.emit("online",{"activeUsersdata":activeUsersdata});
+    })
 
     socket.on("mess", (args) => {
        // console.log(args);
         let recipient=""; 
-        for(let i=0;i<activeUsersdata.length;i++)
+        for(let i=0;i<allusersdata.length;i++)
         {
-            if(args.recepietid===activeUsersdata[i].userid)
+            if(args.recepietid==allusersdata[i]._id.toString())
             {
-                recipient=activeUsersdata[i];
+                recipient=allusersdata[i];
             }
         }
         if (recipient!="") {
@@ -187,7 +203,6 @@ io.on("connection", (socket) => {
             const chat = new ChatModel({ receiverid:args.recepietid,senderid:args.senderid,data:args.msg});
             chat.save();
             socket.to(recipient.socketid).emit("server-respo", args);
-
         } else {
             console.log("Recipient not found");
         }
@@ -196,6 +211,7 @@ io.on("connection", (socket) => {
     socket.on("disconnect", () => {
         console.log(`User ${currentusername} disconnected`);
         activeUsersdata = activeUsersdata.filter(user => user.socketid !== socket.id);
+        io.emit("change",({"activeUsersdata":activeUsersdata}));
     });
 });
 

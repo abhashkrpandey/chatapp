@@ -38,17 +38,20 @@ export default function Register()
          }
     }
     return (
-        <div className="bg-slate-300 h-screen ">
-            <form className="flex flex-col items-center justify-center gap-3" onSubmit={register}>
-                <input onChange={inputter} className="w-56" type="text" name="UserName" placeholder="Username"></input>
-                <input onChange={inputter} className="w-56" type="password" name="Password" placeholder="Password"></input>
-                <input onChange={inputter} className="w-56" type="number" name="MobileNumber" placeholder="MobileNumber"></input>
-                <button className="bg-blue-600 w-56" type="submit">Register</button>
-                <p>Already have an Account?</p>
+        <div className="bg-blue-500 h-screen  flex justify-center">
+            <div className="bg-white h-[450px] w-[350px] my-[30px] mx-auto shadow-[0px_2px_2px_rgba(0,0,0,0.3)] rounded-[3px]">
+            <form className="flex flex-col p-[30px] " onSubmit={register}>
+            <h2 className="text-center text-[2rem] mt-[10px] mb-[25px] text-gray-500 font-[500]">Register</h2>
+                <input onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="text" name="UserName" placeholder="Username"></input>
+                <input onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="password" name="Password" placeholder="Password"></input>
+                <input onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="number" name="MobileNumber" placeholder="MobileNumber"></input>
+                <button className="bg-blue-600 w-[18rem] h-[40px] text-white text-[16px] font-bold mb-[1rem] rounded-[2px]" type="submit">Register</button>
+                <p className="text-center text-gray-500">Already have an Account?</p>
                 <Link to="/login">
-                <button className="bg-yellow-500 w-56">Login</button>
+                <button className="bg-yellow-500 w-[18rem] h-[40px] text-white text-[16px] font-bold mb-[1rem] rounded-[2px]">Login</button>
                 </Link>
             </form>
+            </div>
 
         </div>
     )
