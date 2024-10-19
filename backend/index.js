@@ -67,7 +67,7 @@ app.post("/register", async function (req, res) {
             throw err;
         }
         else {
-            res.cookie("token", token,{maxAge:86400000}).json({
+            res.cookie("token", token,{maxAge:86400000},{sameSite:"None"}).json({
                 id: currentuid,
                 uname: currentusername,
                 number:currentunumber
@@ -106,7 +106,7 @@ app.post("/login", async (req, res) => {
                 throw err;
             }
             else {
-                res.cookie("token", token,{maxAge:86400000}).json({
+                res.cookie("token", token,{maxAge:86400000},{sameSite:"None"}).json({
                     id: currentuid,
                     uname:currentusername,
                     number:currentunumber,
