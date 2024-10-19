@@ -29,7 +29,7 @@ export default function Login() {
         e.preventDefault();
         const data = await axios.post(import.meta.env.VITE_BACKEND_URL+"/login", {
             userNameLogging, passwordLogging,numberLogging
-        });
+        },{withCredentials:true});
         userref.current.value="";
         passwordref.current.value="";
         numberref.current.value="";
@@ -48,7 +48,7 @@ export default function Login() {
             setuname(data.data.uname);
             setuid(data.data.id);
             setunumber(data.data.number);
-            const data1 = await axios.get(import.meta.env.VITE_BACKEND_URL+"/profile");
+            const data1 = await axios.get(import.meta.env.VITE_BACKEND_URL+"/profile",{withCredentials:true});
             if (data1.data.redirect) {
                 navigate(data1.data.redirect);
             }
