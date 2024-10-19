@@ -7,7 +7,7 @@ import { UserContext1 } from "../UserContext1";
 
 export default function ChatAppContainer()
 {
-    const [socket,setsocket]=useState(io(process.env.REACT_APP_BACKEND_URL))
+    const [socket,setsocket]=useState(io(import.meta.env.VITE_BACKEND_URL))
     const {recepietid}=useContext(UserContext1);
     useEffect(()=>
     {

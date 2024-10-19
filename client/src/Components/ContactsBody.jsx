@@ -37,7 +37,7 @@ export default function ContactsBody({socket}) {
     }
     useEffect(() => {
         async function fetchingusers() {
-            const totalusers = await axios.get(process.env.REACT_APP_BACKEND_URL+"/totalusers");
+            const totalusers = await axios.get(import.meta.env.VITE_BACKEND_URL+"/totalusers");
             setallusers(totalusers.data.allusersdata);
         }
         fetchingusers();

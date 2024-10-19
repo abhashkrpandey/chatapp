@@ -27,7 +27,7 @@ export default function Login() {
     async function loginng(e) {
         
         e.preventDefault();
-        const data = await axios.post(process.env.REACT_APP_BACKEND_URL+"/login", {
+        const data = await axios.post(import.meta.env.VITE_BACKEND_URL+"/login", {
             userNameLogging, passwordLogging,numberLogging
         });
         userref.current.value="";
@@ -48,7 +48,7 @@ export default function Login() {
             setuname(data.data.uname);
             setuid(data.data.id);
             setunumber(data.data.number);
-            const data1 = await axios.get(process.env.REACT_APP_BACKEND_URL+"/profile");
+            const data1 = await axios.get(import.meta.env.VITE_BACKEND_URL+"/profile");
             if (data1.data.redirect) {
                 navigate(data1.data.redirect);
             }
