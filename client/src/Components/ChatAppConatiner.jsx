@@ -7,7 +7,7 @@ import { UserContext1 } from "../UserContext1";
 
 export default function ChatAppContainer()
 {
-    const [socket,setsocket]=useState(io("http://localhost:3000"))
+    const [socket,setsocket]=useState(io(process.env.BACKEND_URL))
     const {recepietid}=useContext(UserContext1);
     useEffect(()=>
     {

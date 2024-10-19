@@ -13,7 +13,7 @@ export default function ChatApp() {
       useEffect(()=>
     {
         async function refresher(){
-        const response=await axios.get("http://localhost:3000/inside");
+        const response=await axios.get(process.env.BACKEND_URL+"/inside");
         setuname( response.data.uname);
         setuid(response.data.id);
         setunumber(response.data.number);
