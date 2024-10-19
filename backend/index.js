@@ -7,8 +7,8 @@ const cookieParser = require("cookie-parser");
 const UserModel = require("./dbmodels/Usermodel");
 const ChatModel =require("./dbmodels/Chatschema");
 const profileAuthentication = require("./middleware/mw1");
-const { createServer } = require("https");
-const {createServer}=require("http");
+const https = require("https");
+const http=require("http");
 const fs =require("fs");
 const { Server } = require("socket.io");
 const dayjs = require("dayjs");
@@ -24,7 +24,7 @@ const options = {
     key: fs.readFileSync('../private.key'), // Path to your private key
     cert: fs.readFileSync('../certificate.crt') // Path to your SSL certificate
 };
-const httpsServer = createServer(options,app);
+const httpsServer = https.createServer(options,app);
 const httpServer = http.createServer((req, res) => {
     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
     res.end();
