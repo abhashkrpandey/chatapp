@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const UserModel = require("./dbmodels/Usermodel");
 const ChatModel =require("./dbmodels/Chatschema");
 const profileAuthentication = require("./middleware/mw1");
-const https = require("https");
+// const https = require("https");
 const http=require("http");
 const fs =require("fs");
 const { Server } = require("socket.io");
@@ -20,18 +20,22 @@ let currentuid;
 let currentunumber;
 let flag=1;
 dotenv.config();
-const options = {
-    key: fs.readFileSync('../private.key'), // Path to your private key
-    cert: fs.readFileSync('../certificate.crt') // Path to your SSL certificate
-};
-const httpsServer = https.createServer(options,app);
-const httpServer = http.createServer((req, res) => {
-    res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
-    res.end();
-});
-const io = new Server(httpsServer, {
+// const options = {
+//     key: fs.readFileSync('F:/new-chat-application/private.key'), // Path to your private key
+//     cert: fs.readFileSync('F:/new-chat-application/certificate.crt') // Path to your SSL certificate
+// };
+const httpServer = http.createServer(app);
+// const httpServer = http.createServer((req, res) => {
+//     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
+//     res.end();
+// });
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    "http://localhost:5173"
+];
+const io = new Server(httpServer, {
     cors: {
-        origin: process.env.CLIENT_URL,
+        origin: allowedOrigins,
         method: ["GET", "POST", "DELETE", "PUT"],
         credentials: true
     }
@@ -40,7 +44,7 @@ const io = new Server(httpsServer, {
 });
 app.use(cors(
     {
-        origin: process.env.CLIENT_URL,
+        origin: allowedOrigins,
         method: ["GET", "POST", "DELETE", "PUT"],
         credentials: true
     }
@@ -226,9 +230,9 @@ io.on("connection", (socket) => {
 });
 
 
-httpsServer.listen(process.env.PORT, () => {
+httpServer.listen(process.env.PORT, () => {
     console.log(`Server running on port:${process.env.PORT}`);
 });
-httpServer.listen(80, () => {
-    console.log("HTTP server is running on port 80 and redirects to HTTPS");
-});
+// httpServer.listen(80, () => {
+//     console.log("HTTP server is running on port 80 and redirects to HTTPS");
+// });
