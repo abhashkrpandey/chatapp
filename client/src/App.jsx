@@ -8,7 +8,7 @@ import Home from './Pages/Home';
 import NotLoggined from './Pages/NotLogging';
 
 function App() {
-    axios.defaults.baseURL="https://chatapp-1-5yi5.onrender.com"
+    axios.defaults.baseURL="https://chatapp-1-5yi5.onrender.com/"
     axios.defaults.withCredentials=true;
 
   return (
