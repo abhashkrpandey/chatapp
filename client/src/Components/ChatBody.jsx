@@ -11,7 +11,7 @@ export default function ChatBody({ data, setdata, socket }) {
         if (uid && recepietid) {
             async function func() {
                 setdata([]);
-                const response = await axios.post(process.env.BACKEND_URL+"/chatdata", { uid, recepietid });
+                const response = await axios.post(process.env.REACT_APP_BACKEND_URL+"/chatdata", { uid, recepietid });
                 const impdata = response.data;
                 for (let obj of impdata) {
 

@@ -26,12 +26,12 @@ export default function Register()
    async function register(e)
     {
         e.preventDefault();
-       const data= await axios.post(process.env.BACKEND_URL+"/register",{
+       const data= await axios.post(process.env.REACT_APP_BACKEND_URL+"/register",{
             userName,password,number});
             setuname(data.data.uname);
             setuid(data.data.id);
             setunumber(data.data.number);
-         const data1=await axios.get(process.env.BACKEND_URL+"/profile");
+         const data1=await axios.get(process.env.REACT_APP_BACKEND_URL+"/profile");
          if(data1.data.redirect)
          {
             navigate(data1.data.redirect);

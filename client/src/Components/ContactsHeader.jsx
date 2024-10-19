@@ -11,7 +11,7 @@ export default function ContactsHeader()
     const navigate=useNavigate();
     async function logout()
     {
-        const response =await axios.get(process.env.BACKEND_URL+"/logout");
+        const response =await axios.get(process.env.REACT_APP_BACKEND_URL+"/logout");
         if(response.data.redirect)
             {
                navigate(response.data.redirect);
@@ -20,7 +20,7 @@ export default function ContactsHeader()
     }
     async function signout()
     {
-        const response=await axios.get(process.env.BACKEND_URL+"/signout");
+        const response=await axios.get(process.env.REACT_APP_BACKEND_URL+"/signout");
         if(response.data.redirect)
         {
             navigate(response.data.redirect);
