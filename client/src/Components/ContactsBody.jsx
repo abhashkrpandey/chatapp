@@ -62,7 +62,7 @@ export default function ContactsBody({socket}) {
             {/* <div className="flex flex-row">
                 <button className="bg-gray-500 w-full" onClick={search}>Press for active users</button>
             </div> */}
-            <div>
+            <div className="overflow-y-auto">
                 {
                 updateusers
                 }
