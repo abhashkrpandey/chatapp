@@ -92,6 +92,11 @@ app.get("/inside",profileAuthentication,async(req,res)=>
         number:currentunumber,
     });
 })
+
+app.get("/login",(res,req)=>
+{
+    res.send("/login");
+})
 app.post("/login", async (req, res) => {
     const username = req.body.userNameLogging;
     const password = req.body.passwordLogging;
