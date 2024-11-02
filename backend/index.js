@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const UserModel = require("./dbmodels/Usermodel");
 const ChatModel =require("./dbmodels/Chatschema");
 const profileAuthentication = require("./middleware/mw1");
-// const https = require("https");
+const path= require('path');
 const http=require("http");
 const fs =require("fs");
 const { Server } = require("socket.io");
@@ -20,15 +20,8 @@ let currentuid;
 let currentunumber;
 let flag=1;
 dotenv.config();
-// const options = {
-//     key: fs.readFileSync('F:/new-chat-application/private.key'), // Path to your private key
-//     cert: fs.readFileSync('F:/new-chat-application/certificate.crt') // Path to your SSL certificate
-// };
 const httpServer = http.createServer(app);
-// const httpServer = http.createServer((req, res) => {
-//     res.writeHead(301, { Location: `https://${req.headers.host}${req.url}` });
-//     res.end();
-// });
+
 const allowedOrigins = [
     process.env.CLIENT_URL,
     "http://localhost:5173"
@@ -51,6 +44,7 @@ app.use(cors(
 ));
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'build')));
 mongoose.connect(process.env.MONGOURL);
 app.post("/register", async function (req, res) {
     const username = req.body.userName;
@@ -126,7 +120,6 @@ app.post("/login", async (req, res) => {
 async function alluserfinder()
 {
    allusersdata=await UserModel.find({},{username:1});
-//    console.log(allusersdata);
 }
 app.get("/totalusers",profileAuthentication,(req,res)=>
 {
@@ -148,7 +141,6 @@ app.post("/user", profileAuthentication, async (req, res) => {
 
 app.get("/activeusers",profileAuthentication,(req,res)=>
 {
-   // console.log(activeUsersdata[0].uid.toString());
      res.send({activeUsersdata});
 })
 
@@ -157,9 +149,9 @@ app.get("/logout",profileAuthentication,async(req,res)=>
     const username=req.decoded.username;
     const number=req.decoded.number;
     const user=await UserModel.findOne({username,number});
-   // currentusername=user.username;
+  
     currentuid=user._id.toString();
-   // currentunumber=user.number;
+  
     activeUsersdata=activeUsersdata.filter(person=>person.userid!=currentuid);
     console.log(activeUsersdata);
     res.send({redirect:"/"});
@@ -184,9 +176,10 @@ app.post("/chatdata",profileAuthentication,async (req,res)=>
     const chatdata=await ChatModel.find({$and:[{$or:[{senderid:convertedrecepientid},{receiverid:convertedrecepientid}]},{$or:[{senderid:converteduid},{receiverid:converteduid}]}]},{data:1,receiverid:1,senderid:1,createdAt:1});
     res.json(chatdata);
 })
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  });
 io.on("connection", (socket) => {
-    //console.log(socket.id);
-   // console.log(activeUsersdata);
    socket.on("status",(args)=>{
     let currentUserIndex = activeUsersdata.findIndex(user => user.userid === args.uid);
 
@@ -196,7 +189,7 @@ io.on("connection", (socket) => {
         currentuid="";
         currentusername="";
         currentunumber="";
-        //console.log(`User ${currentusername} reconnected with new socket ID: ${socket.id}`);
+       
     } else 
     if(currentusername && currentuid && currentunumber) {
     
@@ -218,7 +211,6 @@ io.on("connection", (socket) => {
             }
         }
         if (recipient!="") {
-            //const date = new Date();
             const chat = new ChatModel({ receiverid:args.recepietid,senderid:args.senderid,data:args.msg});
             chat.save();
             socket.to(recipient.socketid).emit("server-respo", args);
@@ -238,6 +230,3 @@ io.on("connection", (socket) => {
 httpServer.listen(process.env.PORT, () => {
     console.log(`Server running on port:${process.env.PORT}`);
 });
-// httpServer.listen(80, () => {
-//     console.log("HTTP server is running on port 80 and redirects to HTTPS");
-// });
