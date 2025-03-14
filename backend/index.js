@@ -57,7 +57,7 @@ app.post("/register", async function (req, res) {
                 throw err;
             }
             else {
-                res.cookie("jwttoken", jwttoken, { maxAge: 86400000 }).json({
+                res.cookie("jwttoken", jwttoken, { maxAge: 86400000,sameSite:"none" }).json({
                     id: user._id.toString(),
                     uname: user.username,
                 });
@@ -98,7 +98,7 @@ app.post("/login", async (req, res) => {
                 throw err;
             }
             else {
-                res.cookie("jwttoken", jwttoken, { maxAge: 86400000 }).json({
+                res.cookie("jwttoken", jwttoken, { maxAge: 86400000, sameSite:"none"}).json({
                     id: user._id.toString(),
                     uname: user.username,
                 });
