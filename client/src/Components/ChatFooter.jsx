@@ -1,48 +1,50 @@
-import { useContext,useRef,} from "react";
+import { useContext, useRef, useState } from "react";
 import { UserContext1 } from "../UserContext1";
-import { UserContext } from "../UserContext";
+import Cookies from "js-cookie";
 
-export default function ChatFooter({data,setdata,socket}) {
-    const {message,setmessage,recepientname,recepientsocketid,recepietid}=useContext(UserContext1);
-    const {uid}=useContext(UserContext);
-    const currentref=useRef(null);
+export default function ChatFooter({ data, setdata }) {
+    const { recepientname, recepientid, socket } = useContext(UserContext1);
+    const userid = Cookies.get("userid");
+    const currentref = useRef(null);
+    const [message, setmessage] = useState("");
     async function sender() {
-        socket.emit("mess", { "msg": message,"recepientname":recepientname,"recepientsocketid":recepientsocketid,"sendersocketid":socket.id,"recepietid":recepietid,"senderid":uid});
-        const somedate=new Date();
+        if (message === "") {
+            return;
+        }
+        // let id = Math.random() * 10000000000;
+        socket.emit("mess", { "msg": message, "recepientname": recepientname, "recepientid": recepientid, "userid": userid});
+        const somedate = new Date();
         const convertedtime = somedate.toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata" });
         const converteddate = somedate.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" });
-        setdata((prevMessages)=>
-        [
-            ...prevMessages,
-            // <div key={Math.random(0,1)} className="flex flex-row-reverse">
-            //     <p className="bg-green-700 pl-[2.25rem] pr-[0.25rem]">{message}</p>
-            //     </div>
-            <div key={Math.random(0, 1)} className="flex flex-row-reverse mt-[2%]">
-            <div className="bg-green-700 pl-[0.25rem] pr-[2.25rem]">
-                <div className="text-white">
-                    {message}
-                </div>
-                <div className="flex flex-row-reverse text-white">
-                    {
-                        converteddate+" at "+
-                        convertedtime
-                    }
-                </div>
-            </div>
-        </div>
-                
-        ]
-    )
-        currentref.current.value="";
+        // setdata((prevMessages) =>
+        //     [
+        //         ...prevMessages,
+        //         {
+        //             "message": message,
+        //             "messageDate": converteddate,
+        //             "messageTime": convertedtime,
+        //             "userid": userid,
+        //             "recepientid": recepientid,
+        //             "_id": id
+        //         }
+
+        //     ]
+        // )
+        currentref.current.value = "";
+        setmessage("");
     }
     function inputter(e) {
         setmessage(e.target.value);
-        
+    }
+    function enterfunc(e) {
+        if (e.key == "Enter") {
+            sender();
+        }
     }
     return (
-               <div className="flex h-[5%]">
-                <input ref={currentref} onChange={inputter} type="text" placeholder="Message" className="border-2 border-blue-500 w-5/6"></input>
-                <button onClick={sender}  type="submit" className="bg-blue-600 w-1/6 text-white">Send</button>
-               </div>
+        <div className="flex h-[5%]">
+            <input ref={currentref} onChange={inputter} type="text" placeholder="Message" className="border-2 border-blue-500 w-5/6" onKeyDown={enterfunc}></input>
+            <button onClick={sender} type="submit" className="bg-blue-600 w-1/6 text-white" onKeyDown={enterfunc}>Send</button>
+        </div>
     )
 }

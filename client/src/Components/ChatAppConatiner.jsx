@@ -7,22 +7,13 @@ import { UserContext1 } from "../UserContext1";
 
 export default function ChatAppContainer()
 {
-    const [socket,setsocket]=useState(io(import.meta.env.VITE_BACKEND_URL))
-    const {recepietid}=useContext(UserContext1);
-    useEffect(()=>
-    {
-        socket.on("connect",()=>
-            {
-                console.log(socket.id);
-            })
-        setsocket(socket);
-    },[])
+    const {recepientid}=useContext(UserContext1); 
     return (
         <div className="flex h-screen">
-            <Contacts classname="flex-col w-1/4 border-2 border-blue-500" socket={socket}></Contacts>
+            <Contacts classname="flex-col w-[35%] border-2 border-blue-500"></Contacts>
             {
-             recepietid?(<Chat classname="flex-col w-3/4 border-2 border-blue-500" socket={socket}></Chat>):(
-                <Blank className="w-1/4 border-2 border-blue-500"></Blank>
+             recepientid?(<Chat classname="flex-col w-[65%] border-2 border-blue-500"></Chat>):(
+                <Blank className="w-[65%] border-2 border-blue-500"></Blank>
              )
            }
         </div>

@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 function profileAuthentication(req,res,next)
 {
-    jwt.verify(req.cookies.token,process.env.SECRETKEY,(err,decoded)=>{
+    jwt.verify(req.cookies.jwttoken,process.env.SECRETKEY,(err,decoded)=>{
          if(err)
          {
-            res.send({redirect:"/notidentified",ki:err});
+            res.json({message:"Not Ok",ki:err});
          }
          else{
             req.decoded=decoded;

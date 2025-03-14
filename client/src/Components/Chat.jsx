@@ -8,12 +8,12 @@ export default function Chat({classname,socket})
 {
     const [data,setdata]=useState([]);
     const { uid} = useContext(UserContext);
-    const {recepietid}=useContext(UserContext1);
+    const {recepientid}=useContext(UserContext1);
     return(
         <div className={`${classname}`}>
            <ChatHeader></ChatHeader>
-           <ChatBody data={data} setdata={setdata} socket={socket}></ChatBody>  
-           <ChatFooter data={data} setdata={setdata} socket={socket}></ChatFooter> 
+           <ChatBody data={data} setdata={setdata}></ChatBody>  
+           <ChatFooter data={data} setdata={setdata}></ChatFooter> 
         </div>
     )
 } 

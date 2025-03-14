@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const chatSchema = new mongoose.Schema({
-    senderid: { type: mongoose.ObjectId, required: true },
-    receiverid: { type: mongoose.ObjectId, required: true },
-    data: { type: String, required: true }
+    userid: { type:String, required: true },
+    recepientid: { type:String, required: true },
+    message: { type: String, required: true },
 }, 
 { timestamps: true }); 
 
