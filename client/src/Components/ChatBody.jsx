@@ -10,6 +10,7 @@ export default function ChatBody({ data, setdata }) {
 
     const [dataFromDb, setdataFromDb] = useState([]);
     const [visibleIds, setVisibleIds] = useState([]);
+    const [allChatsCombined, setallChatsCombined] = useState([]);
 
     useEffect(() => {
         const handleMessage = (message) => {
@@ -25,16 +26,16 @@ export default function ChatBody({ data, setdata }) {
             socket.emit("message-read-id", { ids: visibleIds, recepientid: recepientid, userid: userid });
         }
         return () => socket.off("message-read-id");
-    }, [visibleIds, recepientid,socket]);
+    }, [visibleIds, recepientid, socket]);
 
-    let allChatsCombined = useMemo(() => {
+    setallChatsCombined(useMemo(() => {
         const seenIds = new Set();
         return [...dataFromDb, ...data].filter((item) => {
             if (seenIds.has(item._id)) return false;
             seenIds.add(item._id);
             return true;
         });
-    }, [data, dataFromDb]);
+    }, [data, dataFromDb]));
 
     useEffect(() => {
         async function fetchChatData() {
@@ -48,7 +49,7 @@ export default function ChatBody({ data, setdata }) {
         }
         fetchChatData();
         setdata([]);
-        allChatsCombined=[];
+        setallChatsCombined([]);
     }, [recepientid]);
 
     return (
