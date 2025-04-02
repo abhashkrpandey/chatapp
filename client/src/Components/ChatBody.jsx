@@ -27,7 +27,7 @@ export default function ChatBody({ data, setdata }) {
         return () => socket.off("message-read-id");
     }, [visibleIds, recepientid,socket]);
 
-    const allChatsCombined = useMemo(() => {
+    let allChatsCombined = useMemo(() => {
         const seenIds = new Set();
         return [...dataFromDb, ...data].filter((item) => {
             if (seenIds.has(item._id)) return false;
@@ -48,10 +48,11 @@ export default function ChatBody({ data, setdata }) {
         }
         fetchChatData();
         setdata([]);
+        allChatsCombined=[];
     }, [recepientid]);
 
     return (
-        <div className="flex flex-col h-[85%] gap-1 overflow-y-auto">
+        <div className="flex flex-col h-[95%] gap-1 overflow-y-auto pt-20">
             {allChatsCombined.map((obj) => (
                 <MessageBody
                     key={obj._id}

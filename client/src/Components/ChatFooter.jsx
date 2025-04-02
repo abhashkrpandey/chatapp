@@ -11,25 +11,10 @@ export default function ChatFooter({ data, setdata }) {
         if (message === "") {
             return;
         }
-        // let id = Math.random() * 10000000000;
-        socket.emit("mess", { "msg": message, "recepientname": recepientname, "recepientid": recepientid, "userid": userid});
+        socket.emit("mess", { "msg": message, "recepientname": recepientname, "recepientid": recepientid, "userid": userid });
         const somedate = new Date();
         const convertedtime = somedate.toLocaleTimeString("en-IN", { timeZone: "Asia/Kolkata" });
         const converteddate = somedate.toLocaleDateString("en-IN", { timeZone: "Asia/Kolkata" });
-        // setdata((prevMessages) =>
-        //     [
-        //         ...prevMessages,
-        //         {
-        //             "message": message,
-        //             "messageDate": converteddate,
-        //             "messageTime": convertedtime,
-        //             "userid": userid,
-        //             "recepientid": recepientid,
-        //             "_id": id
-        //         }
-
-        //     ]
-        // )
         currentref.current.value = "";
         setmessage("");
     }
@@ -42,7 +27,7 @@ export default function ChatFooter({ data, setdata }) {
         }
     }
     return (
-        <div className="flex h-[5%]">
+        <div className="flex h-[5%] fixed w-[65%]">
             <input ref={currentref} onChange={inputter} type="text" placeholder="Message" className="border-2 border-blue-500 w-5/6" onKeyDown={enterfunc}></input>
             <button onClick={sender} type="submit" className="bg-blue-600 w-1/6 text-white" onKeyDown={enterfunc}>Send</button>
         </div>

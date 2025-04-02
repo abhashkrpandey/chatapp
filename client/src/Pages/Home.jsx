@@ -7,7 +7,7 @@ export default function Home() {
             <NavBar></NavBar>
             <div className='flex justify-between'>
                 <div className='lg:w-128 sm:w-80  lg:text-5xl sm:text-2xl font-bold ml-5 h-56 leading-relaxer'>
-                    Connecting Conversations AnyTime,Anywhere
+                    Connecting Conversations AnyTime,AnyWhere
                 </div>
                 <div className='lg:w-[500px] lg:h-[500px] md:w-[300px] md:h-[300px] sm:w-[200px] sm:h-[200px] lg:mr-10 md:mr-8 sm:mr-5'>
                     <img src={logo} alt="Logo" className='rounded-full sm:h-[200px] lg:h-[500px] md:h-[300px]'></img>

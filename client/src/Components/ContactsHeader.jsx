@@ -36,7 +36,7 @@ export default function ContactsHeader() {
     }
     // const name=uname;
     return (
-        <div className="flex bg-blue-600 h-[10%] justify-between">
+        <div className="flex bg-blue-600 w-[35%] h-[10%] justify-between items-center px-4 fixed ">
             <div className="font-bold lg:text-base md:text-sm sm:text-xs text-white flex items-center justify-center lg:ml-[1%]">{username}</div>
             <div className="flex">
                 {(isVisible) ? (

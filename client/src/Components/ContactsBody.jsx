@@ -10,14 +10,14 @@ const ContactsBody = React.memo(function ContactsBody() {
     const [updateusers, setupdateusers] = useState([]);
     const { socket } = useContext(UserContext1);
     const [totalActiveUser, settotalActiveUser] = useState([]);
-    const [totalNotification,setTotalNotification]=useState([]);
+    const [totalNotification, setTotalNotification] = useState([]);
 
     useEffect(() => {
         async function totaluserscounter() {
             try {
                 const totalusers = await axios.post(import.meta.env.VITE_BACKEND_URL + "/totalusers",
                     {
-                        "recepientid":Cookies.get("userid") // sending as recepientid because this user is now a recevier of noifications from others
+                        "recepientid": Cookies.get("userid") // sending as recepientid because this user is now a recevier of noifications from others
                     }
                 );
                 setallusersdata(totalusers.data.allusers);
@@ -38,7 +38,7 @@ const ContactsBody = React.memo(function ContactsBody() {
                         userid={ele._id}
                         username={ele.username}
                         activeStatus={totalActiveUser.includes(ele._id) ? "online" : "offline"}
-                        newMessage={totalNotification!=null?totalNotification.includes(ele._id)?true:false:false}
+                        newMessage={totalNotification != null ? totalNotification.includes(ele._id) ? true : false : false}
                     />
                 ))
                 : <p>No users present</p>
@@ -47,8 +47,7 @@ const ContactsBody = React.memo(function ContactsBody() {
 
     useEffect(() => {
 
-        if (socket==null)
-        {
+        if (socket == null) {
             return;
         }
         socket.emit("request-active-users");
@@ -64,7 +63,7 @@ const ContactsBody = React.memo(function ContactsBody() {
     }, [socket]);
 
     return (
-        <div className="overflow-y-auto">
+        <div className="overflow-y-auto h-[98%] pt-20">
             {updateusers}
         </div>
     );

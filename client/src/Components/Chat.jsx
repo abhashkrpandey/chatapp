@@ -10,7 +10,7 @@ export default function Chat({classname,socket})
     const { uid} = useContext(UserContext);
     const {recepientid}=useContext(UserContext1);
     return(
-        <div className={`${classname}`}>
+        <div className="flex-col w-[65%] border-2 border-blue-500">
            <ChatHeader></ChatHeader>
            <ChatBody data={data} setdata={setdata}></ChatBody>  
            <ChatFooter data={data} setdata={setdata}></ChatFooter> 
