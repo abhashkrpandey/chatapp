@@ -9,6 +9,7 @@ export default function Register() {
     const [userName, setUserName] = useState("");
     const [password, setPassword] = useState("");
     const [number, setNumber] = useState("");
+    const [isVerifying, setisVerifying] = useState(false);
     const navigate = useNavigate();
     function loginfunc() {
         navigate("/login");
@@ -54,10 +55,12 @@ export default function Register() {
             )
         }
         else {
+            setisVerifying(true);
             const response = await axios.post(import.meta.env.VITE_BACKEND_URL + "/register", {
                 userName, password, number
             }, { withCredentials: true });
             if (response.data.message == "already present") {
+                setisVerifying(false);
                 Swal.fire(
                     {
                         icon: "error",
@@ -81,7 +84,9 @@ export default function Register() {
                     <input onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="text" name="UserName" placeholder="Username" required></input>
                     <input onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="password" name="Password" placeholder="Password" required></input>
                     <input onChange={inputter} className="w-[18rem] bg-[#f2f2f2] mb-[1rem] h-[40px] pl-[10px]" type="number" name="MobileNumber" placeholder="MobileNumber" required></input>
-                    <button className="bg-blue-600 w-[18rem] h-[40px] text-white text-[16px] font-bold mb-[1rem] rounded-[2px] active:text-blue-500" onClick={register}>Register</button>
+                    <button disabled={isVerifying} className="bg-blue-600 w-[18rem] h-[40px] text-white
+                     text-[16px] font-bold mb-[1rem] rounded-[2px]
+                      active:text-blue-500" onClick={register}>{isVerifying == false ? <div>Register</div> : <div>Please Wait ...</div>}</button>
                     <p className="text-center text-gray-500">Already have an Account?</p>
                     <button className="bg-yellow-500 w-[18rem] h-[40px] text-white text-[16px] font-bold mb-[1rem] rounded-[2px] active:text-yellow-500" onClick={loginfunc}>Login</button>
                 </form>
