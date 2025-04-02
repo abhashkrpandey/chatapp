@@ -27,7 +27,16 @@ export default function Register() {
     }
     async function register(e) {
         e.preventDefault();
-        if (password.length < 6 && password.length >= 0) {
+        if (userName == "") {
+            Swal.fire(
+                {
+                    icon: "error",
+                    title: "Invalid",
+                    text: "Enter proper credentials"
+                }
+            )
+        }
+        else if (password.length < 6 && password.length >= 0) {
             Swal.fire(
                 {
                     icon: "warning",
@@ -36,21 +45,12 @@ export default function Register() {
                 }
             )
         }
-        if (number.length < 10 && number.length > 0 || number.length > 10) {
+       else if (number.length < 10 && number.length > 0 || number.length > 10) {
             Swal.fire(
                 {
                     icon: "warning",
                     title: "Not Valid Length",
                     text: "Enter 10 digit number"
-                }
-            )
-        }
-        if (userName == "") {
-            Swal.fire(
-                {
-                    icon: "error",
-                    title: "Invalid",
-                    text: "Enter proper credentials"
                 }
             )
         }
