@@ -26,7 +26,25 @@ export default function Register() {
     }
     async function register(e) {
         e.preventDefault();
-        if (userName == "" || password == "" || number == "") {
+        if (password.length < 6 && password.length >= 0) {
+            Swal.fire(
+                {
+                    icon: "warning",
+                    title: "Too Small Password",
+                    text: "Enter Atleast 6 digits"
+                }
+            )
+        }
+        if (number.length < 10 && number.length > 0 || number.length > 10) {
+            Swal.fire(
+                {
+                    icon: "warning",
+                    title: "Not Valid Length",
+                    text: "Enter 10 digit number"
+                }
+            )
+        }
+        if (userName == "") {
             Swal.fire(
                 {
                     icon: "error",

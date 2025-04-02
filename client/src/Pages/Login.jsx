@@ -24,7 +24,7 @@ export default function Login() {
     }
     async function loginng(e) {
         e.preventDefault();
-        if (passwordLogging.length < 6 && passwordLogging >= 0) {
+        if (passwordLogging.length < 6 && passwordLogging.length >= 0) {
             Swal.fire(
                 {
                     icon: "warning",
@@ -33,7 +33,7 @@ export default function Login() {
                 }
             )
         }
-        if (numberLogging.length < 10 && numberLogging > 0 || numberLogging > 10) {
+        if (numberLogging.length < 10 && numberLogging.length > 0 || numberLogging.length > 10) {
             Swal.fire(
                 {
                     icon: "warning",
