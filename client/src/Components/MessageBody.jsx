@@ -17,10 +17,20 @@ export default function MessageBody({ obj, userid, recepientid, visibleIds, setV
         }
     }, [inView]);
 
-    const isSender = userid === obj.userid && recepientid === obj.recepientid;
-    const bgColor = isSender ? "bg-green-700" : "bg-green-500";
-    const paddingClass = isSender ? "pl-[0.25rem] pr-[2.25rem]" : "pl-[2.25rem] pr-[0.25rem]";
-    const flexClass = isSender ? "flex-row-reverse" : "";
+    let bgColor;
+    let paddingClass;
+    let flexClass;
+    if (userid === obj.userid && recepientid === obj.recepientid) {
+        //now i am a sender
+        bgColor = "bg-green-700";
+        paddingClass = "pl-[0.25rem] pr-[2.25rem]"
+        flexClass = "flex-row-reverse"
+    }
+    else if (userid === obj.recepientid && recepientid === obj.userid) { //now i am a  recevier 
+        bgColor = "bg-green-500";
+        paddingClass = "pl-[2.25rem] pr-[0.25rem]";
+        flexClass = ""
+    }
 
     return (
         <div ref={setRefs} id={obj._id} className={`flex ${flexClass} mt-[2%]`}>

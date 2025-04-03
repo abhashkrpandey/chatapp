@@ -24,7 +24,7 @@ export default function ChatBody({ data, setdata }) {
 
         socket.on("message-from-server", handleMessage);
         return () => socket.off("message-from-server", handleMessage);
-    }, [socket, setdata]);
+    }, [socket]);
 
     useEffect(() => {
         if (visibleIds.length > 0) {
